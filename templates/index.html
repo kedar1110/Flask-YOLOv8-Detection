@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YOLOv8 Object Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <h1>YOLOv8 Object Detection</h1>
+    <p>Select a model and input type to detect objects in image, video, or webcam stream.</p>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <form method="POST" enctype="multipart/form-data" action="/detect_image">
+        <h2>Upload Image</h2>
+        <input type="file" name="image" accept="image/*" required>
+        <select name="model_choice">
+          <option value="default">Default YOLOv8</option>
+          <option value="custom">Custom Trained Model</option>
+        </select>
+        <button type="submit">Detect Image</button>
+      </form>
+    </section>
+
+    <section class="form-section">
+      <form method="POST" enctype="multipart/form-data" action="/detect_video">
+        <h2>Upload Video</h2>
+        <input type="file" name="video" accept="video/*" required>
+        <select name="model_choice">
+          <option value="default">Default YOLOv8</option>
+          <option value="custom">Custom Trained Model</option>
+        </select>
+        <button type="submit">Detect Video</button>
+      </form>
+    </section>
+
+    <section class="form-section">
+      <form method="GET" action="/webcam">
+  <h2>Use Webcam</h2>
+  <select name="model_choice">
+    <option value="default">Default YOLOv8</option>
+    <option value="custom">Custom YOLOv8 (Trained)</option>
+  </select>
+  <button type="submit">Start Webcam</button>
+</form>
+    </section>
+
+    {% if image_path %}
+    <section class="result">
+      <h2>Detected Image</h2>
+      <img src="{{ url_for('static', filename=image_path) }}" alt="Detected Image" class="output-media">
+    </section>
+    {% endif %}
+
+    {% if video_path %}
+    <section class="result">
+      <h2>Detected Video</h2>
+      <video controls autoplay loop class="output-media">
+        <source src="{{ url_for('static', filename=video_path) }}" type="video/mp4">
+        Your browser does not support video playback.
+      </video>
+    </section>
+    {% endif %}
+  </main>
+</body>
+</html>
+
+
+
